@@ -34,6 +34,7 @@ class CartProductBloc {
       'quantity': 1
     },
     
+    
   ];
     CartProductResponse cartProductResponse = CartProductResponse.fromJson(cartProduct);
     _subject.sink.add(cartProductResponse);

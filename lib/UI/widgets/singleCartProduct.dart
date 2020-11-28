@@ -1,24 +1,11 @@
 import 'package:e_commerce/UI/widgets/AllcommonWidget.dart';
+import 'package:e_commerce/modal/Cart_Product.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SingleCartProduct extends StatefulWidget {
-  final String productName;
-  final String productPicture;
-  final double productPrice;
-  final String productSize;
-  final String productColor;
   int productQuantity;
-
-  SingleCartProduct(
-      {Key key,
-      this.productName,
-      this.productPicture,
-      this.productPrice,
-      this.productSize,
-      this.productColor,
-      this.productQuantity})
-      : super(key: key);
 
   @override
   _SingleCartProductState createState() => _SingleCartProductState();
@@ -27,25 +14,26 @@ class SingleCartProduct extends StatefulWidget {
 class _SingleCartProductState extends State<SingleCartProduct> {
   @override
   Widget build(BuildContext context) {
+    var cartProduct = Provider.of<CartProducts>(context);
     return Card(
       child: ListTile(
         leading: Container(
           child: Image.asset(
-            widget.productPicture,
+            cartProduct.productPicture,
             fit: BoxFit.cover,
           ),
         ),
-        title: Text(widget.productName),
+        title: Text(cartProduct.productName),
         subtitle: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Size : ${widget.productSize}'),
-                Text('Color : ${widget.productColor}'),
+                Text('Size : ${cartProduct.productSize}'),
+                Text('Color : ${cartProduct.productColor}'),
                 Text(
-                  '\$${widget.productPrice}',
+                  '\$${cartProduct.productPrice}',
                   style: CommonWidget.textStyle(),
                 ),
               ],
@@ -56,28 +44,27 @@ class _SingleCartProductState extends State<SingleCartProduct> {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_left),
-                      onPressed: () {
-                        setState(() {
-                          if (widget.productQuantity > 1 ) {
-                            widget.productQuantity--;
-                          }                               
-                        });
-                      }
-                    ),
-                    Text('${widget.productQuantity}'),
+                        icon: Icon(Icons.arrow_left),
+                        onPressed: () {
+                          setState(() {
+                            if (cartProduct.productQuantity > 1) {
+                              cartProduct.productQuantity--;
+                            }
+                          });
+                        }),
+                    Text('${cartProduct.productQuantity}'),
                     IconButton(
                       icon: Icon(Icons.arrow_right),
                       onPressed: () {
                         setState(() {
-                          widget.productQuantity++;
+                          cartProduct.productQuantity++;
                         });
                       },
                     ),
                   ],
                 ),
                 Text(
-                    'Total Cost : \$${widget.productPrice * widget.productQuantity}')
+                    'Total Cost : \$${cartProduct.productPrice * cartProduct.productQuantity}')
               ],
             )
           ],
